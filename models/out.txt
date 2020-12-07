@@ -1,0 +1,10 @@
+Requests      [total, rate, throughput]         9826, 126.84, 57.97
+Duration      [total, attack, wait]             1m17s, 1m17s, 172.375µs
+Latencies     [min, mean, 50, 90, 95, 99, max]  66.125µs, 1.859s, 204.11µs, 5.625s, 6.649s, 8.836s, 11.778s
+Bytes In      [total, mean]                     570539, 58.06
+Bytes Out     [total, mean]                     0, 0.00
+Success       [ratio]                           45.71%
+Status Codes  [code:count]                      0:5333  200:4491  503:2  
+Error Set:
+Get "http://localhost:10000/request1": dial tcp: lookup localhost: no such host
+503 Service Unavailable

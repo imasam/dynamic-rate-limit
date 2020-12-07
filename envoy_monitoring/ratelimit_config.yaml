@@ -1,0 +1,17 @@
+descriptors:
+- key: generic_key
+  rate_limit: {requests_per_unit: 193, unit: second}
+  value: r1_service_a
+- key: generic_key
+  rate_limit: {requests_per_unit: 108, unit: second}
+  value: r1_service_b
+- key: generic_key
+  rate_limit: {requests_per_unit: 118, unit: second}
+  value: r2_service_b
+- key: generic_key
+  rate_limit: {requests_per_unit: 99, unit: second}
+  value: r1_service_c
+- key: generic_key
+  rate_limit: {requests_per_unit: 9, unit: second}
+  value: r2_service_d
+domain: apis

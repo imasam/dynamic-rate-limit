@@ -1,0 +1,216 @@
+version: '3'
+services:
+  front-envoy:
+    # image: envoyproxy/envoy-alpine:v1.7.0
+    image: envoyproxy/envoy:v1.11.0
+
+    volumes:
+      - ./front_envoy/envoy-config.yaml:/etc/envoy-config.yaml
+    networks:
+      - envoymesh
+    expose:
+      - 10000
+      - 9901
+    ports:
+      - "10000:10000"
+      - "9901:9901"
+  
+    # command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --v2-config-only -l info --service-cluster 'front-envoy' --service-node 'front-envoy' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"
+    command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --service-cluster 'front-envoy' --service-node 'front-envoy' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"
+
+  service_a_envoy:
+    # image: envoyproxy/envoy-alpine:v1.7.0
+    image: envoyproxy/envoy:v1.11.0
+    volumes:
+      - ./service_a/envoy-config.yaml:/etc/envoy-config.yaml
+    networks:
+      - envoymesh
+    expose:
+      - 8786
+      # - 8788 
+    ports:
+      - "8786:8786"
+      # - "8788:8788"
+    
+    # command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --v2-config-only -l info --service-cluster 'service-a' --service-node 'service-a' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"
+    command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --service-cluster 'service-a' --service-node 'service-a' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"
+
+  service_a:
+    build: service_a/
+    networks:
+      - envoymesh
+    expose:
+      - 8084
+    ports:
+    - "8084:8084"
+
+
+  service_b_envoy:
+    # image: envoyproxy/envoy-alpine:v1.7.0
+    image: envoyproxy/envoy:v1.11.0
+
+    volumes:
+      - ./service_b/envoy-config.yaml:/etc/envoy-config.yaml
+    networks:
+      - envoymesh
+    expose:
+      - 8789
+    ports:
+      - "8789:8789"
+
+    # command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --v2-config-only -l info --service-cluster 'service-b' --service-node 'service-b' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"  
+    command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --service-cluster 'service-b' --service-node 'service-b' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"  
+
+  service_b:
+    build: service_b/
+    networks:
+      - envoymesh
+    expose:
+      - 8082
+    ports:
+    - "8082:8082"
+
+
+  service_c_envoy:
+    # image: envoyproxy/envoy-alpine:v1.7.0
+    image: envoyproxy/envoy:v1.11.0
+
+    volumes:
+      - ./service_c/envoy-config.yaml:/etc/envoy-config.yaml
+    networks:
+      - envoymesh
+    expose:
+      - 8790
+    ports:
+      - "8790:8790"
+
+    # command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --v2-config-only -l info --service-cluster 'service-c' --service-node 'service-c' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"  
+    command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --service-cluster 'service-c' --service-node 'service-c' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"  
+
+  service_c:
+    build: service_c/
+    networks:
+      - envoymesh
+    expose:
+      - 8083
+    ports:
+    - "8083:8083"
+
+  service_d_envoy:
+    # image: envoyproxy/envoy-alpine:v1.7.0
+    image: envoyproxy/envoy:v1.11.0
+    volumes:
+      - ./service_d/envoy-config.yaml:/etc/envoy-config.yaml
+    networks:
+      - envoymesh
+    expose:
+      - 8796
+      # - 8788 
+    ports:
+      - "8796:8796"
+      # - "8788:8788"
+    
+    # command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --v2-config-only -l info --service-cluster 'service-a' --service-node 'service-a' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"
+    command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --service-cluster 'service-d' --service-node 'service-d' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"
+
+  service_d:
+    build: service_d/
+    networks:
+      - envoymesh
+    expose:
+      - 8086
+    ports:
+    - "8086:8086"
+
+  statsd_exporter:
+    image: prom/statsd-exporter:latest
+    networks:
+      - envoymesh
+    expose:
+      - 9125
+      - 9102
+    ports:
+    - "9125:9125"
+    - "9102:9102"
+
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/config.yaml:/etc/prometheus.yaml
+    networks:
+      - envoymesh
+    expose:
+      - 9090
+    ports:
+    - "9090:9090"
+
+    command: "--config.file=/etc/prometheus.yaml"
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
+      - ./grafana/dashboard.json:/etc/grafana/provisioning/dashboards/dashboard.json
+    networks:
+      - envoymesh
+    expose:
+      - 3000
+    ports:
+    - "3000:3000"
+
+
+  redis:
+    image: redis:alpine
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    networks:
+      envoymesh:
+        aliases:
+          - redis
+
+  ratelimit:
+    build:
+      context: .
+      dockerfile: ratelimit.dockerfile
+    image: ratelimit
+    command: ratelimit
+    volumes:
+      - ./ratelimit_config.yaml:/ratelimit/config/config.yaml
+    ports:
+      - 8085:8085
+      - 8081:8081
+      - 6070:6070
+    depends_on:
+      - redis
+    networks:
+      envoymesh:
+        aliases:
+          - ratelimit
+    environment:
+      - USE_STATSD=false
+      - LOG_LEVEL=debug
+      - REDIS_SOCKET_TYPE=tcp
+      - REDIS_URL=redis:6379
+      - RUNTIME_ROOT=/
+      - RUNTIME_SUBDIRECTORY=ratelimit/config
+
+  zipkin:
+    image: jaegertracing/all-in-one
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+    networks:
+      - envoymesh
+    expose:
+      - 9411
+      - 16686
+    ports:
+      - 9411:9411
+      - 16686:16686
+
+networks:
+  envoymesh: {}

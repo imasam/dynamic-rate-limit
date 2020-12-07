@@ -1,0 +1,9 @@
+Requests      [total, rate, throughput]         513, 75.80, 16.70
+Duration      [total, attack, wait]             6.768s, 6.768s, 115.177µs
+Latencies     [min, mean, 50, 90, 95, 99, max]  89.338µs, 1.013s, 167.567µs, 4.885s, 5.484s, 6.085s, 6.418s
+Bytes In      [total, mean]                     11978, 23.35
+Bytes Out     [total, mean]                     0, 0.00
+Success       [ratio]                           22.03%
+Status Codes  [code:count]                      0:400  200:113  
+Error Set:
+Get "http://localhost:10000/request2": dial tcp: lookup localhost: no such host

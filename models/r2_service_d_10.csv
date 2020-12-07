@@ -1,0 +1,2 @@
+service_a_rq_time_50_quantile,service_a_rq_time_90_quantile,service_a_rq_time_99_quantile,service_b_rq_time_50_quantile,service_b_rq_time_90_quantile,service_b_rq_time_99_quantile,service_c_rq_time_50_quantile,service_c_rq_time_90_quantile,service_c_rq_time_99_quantile,pending_rate,complete_rate,active_rate,r1_service_a,r1_service_b,r2_service_b,r1_service_c,r2_service_d,new_limit,mean_latency
+1.58,2.028,2.394,0.021,0.091,0.247,0.002,0.006999999999999999,0.019,0.14793741109530584,0.8916548127074443,0.0,32,143,193,191,10,10,0.00185
