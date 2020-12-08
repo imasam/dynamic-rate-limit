@@ -12,7 +12,7 @@ you can change the param in config.py to specifiy which request type and service
 
 
 ## Models
-In models directory, there are some files for the training purpose. Use  ```linear_regression.py```, ```fc.py``` and ```lstm.py``` you can train your custom models. 
+In models directory, there are some files for the training purpose. Use  ```linear_regression.py```, ```fc.py``` and ```lstm.py``` you can train your custom models. For LR, you can call its train function in workflow for online learning.
 
 We also provide pre-trained models under dl directory. Currently we set linear regression in code due to its good performance, but in comment we  provides options to call FC and LSTM.
 
