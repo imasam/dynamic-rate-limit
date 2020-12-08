@@ -12,12 +12,12 @@ you can change the param in config.py to specifiy which request type and service
 
 
 ## Models
-In models directory, there are some files for the training purpose. Use  ```linear_regression.py```, ```fc.py``` and ```lstm.py``` you can train your custom models. For LR, you can call its train function in workflow for online learning.
+In models directory, there are some files for the training purpose. You could use our general ```linear_regression.py```, ```fc.py``` and ```lstm.py``` to train your models. For LR, you can call its train function in workflow for online learning.
 
 We also provide pre-trained models under dl directory. Currently we set linear regression in code due to its good performance, but in comment we  provides options to call FC and LSTM.
 
 ## Apply Dynamic Rate Limit
 run ```run_vegeta.py``` first to run the whole microservices with 2 vegeta threads, and wait for the system to be stablized (around 30s).
 
-Then run service workflows, like ```workflow-service-\<service name\>.py```, which will periodically change the limits of ```service-\<service name\>```. We seperate workflows for different services, so you can choose to enable selected services or all of them.
+Then run service workflows, like ```workflow-service-<service name>.py```, which will periodically change the limits of ```service-<service name>```. We seperate workflows for different services, so you can choose to enable selected services or all of them.
 
